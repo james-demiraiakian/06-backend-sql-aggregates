@@ -4,7 +4,7 @@
 
 SELECT
     country,
-    AVG (amount) AS avg
+    AVG(amount) AS avg
 FROM
 	country
 LEFT JOIN
@@ -15,15 +15,22 @@ LEFT JOIN
 	address
 ON
 	address.city_id = city.city_id
-LEFT JOIN
+RIGHT JOIN
 	customer
 ON
 	customer.address_id = address.address_id
+RIGHT JOIN
+	rental
+ON
+	customer.customer_id = rental.customer_id
 LEFT JOIN
 	payment
 ON
-	payment.customer_id = customer.customer_id
+	payment.rental_id = rental.rental_id
+
 GROUP BY 
 	country
 ORDER BY
 	avg DESC
+LIMIT
+	10;
